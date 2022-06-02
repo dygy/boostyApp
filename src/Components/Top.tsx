@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
-import {Alert, Button, ScrollView} from 'react-native';
+import {Alert, Button, ScrollView, View} from 'react-native';
 import Avatar from './Avatar';
 import {deleteFavs, getFavs, setFavs} from '../helpers/storage';
 
@@ -67,7 +67,8 @@ const Top = ({
               if (
                 (matchRE[0].includes('Avatar_avatar_heWdk') ||
                   matchRE[0].includes('UserCard_avatar_YGLc_')) &&
-                !matchRE[0].includes('Comment_avatar_zNVFT')
+                !matchRE[0].includes('Comment_avatar_zNVFT') &&
+                !avatar
               ) {
                 avatar = match;
               }
@@ -78,7 +79,6 @@ const Top = ({
         while ((matchRE = twitchRegex.exec(data)) !== null) {
           matchRE.forEach((match, groupIndex) => {
             if (groupIndex === 1 && matchRE !== null) {
-              console.log(`Found match ${match}`, matchRE[0]);
               twitch = match;
             }
           });
@@ -106,6 +106,7 @@ const Top = ({
         getFavs().then(setFav);
       });
     } else {
+      console.log(nav, nav.includes(boosty),id, avatar, boosty);
       Alert.alert('Unable to add', 'You probably trying add something wrong', [
         {
           text: 'OK',
@@ -134,7 +135,9 @@ const Top = ({
         flexDirection: 'row',
         padding: 8,
       }}>
-      <Button title={'+'} disabled={isAdding} onPress={handleClick} />
+      <Button color='gray' title={'+'} disabled={isAdding} onPress={handleClick} />
+      <View style={{marginLeft: 16}}>
+      </View>
       {favs.map((item: favsType) => {
         return (
           <Avatar

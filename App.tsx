@@ -32,14 +32,14 @@ const App = () => {
   const [isAdding, setIsAdding] = useState(false);
 
   const WINDOW_HEIGHT = Dimensions.get('window').height;
-  const jsCode = 'setTimeout(window.postMessage(window.innerHTML), 1000)';
+  const jsCode = 'window.postMessage(window.innerHTML)';
 
   const backgroundStyle = {
     backgroundColor: Colors.darker,
   };
 
   const handleNav = (event: WebViewNavigation) => {
-    console.log('Received: ', event);
+    console.log('Received: ', event.url);
     if (event.url.includes(boosty)) {
       setNav(event.url);
     } else {
