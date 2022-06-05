@@ -10,10 +10,12 @@
 
 import React, {useState} from 'react';
 import {
+  Button,
   Dimensions,
   Linking,
   SafeAreaView,
   StatusBar,
+  TextInput,
   useColorScheme,
   View,
 } from 'react-native';
@@ -21,9 +23,9 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {WebView} from 'react-native-webview';
 import Top from './src/Components/Top';
-import {Provider} from 'react-redux';
 import {LanguageProvider} from './src/context/language-context';
 import type {WebViewNavigation} from 'react-native-webview/lib/WebViewTypes';
+import BoostyButton from './src/Components/BoostyButton';
 
 const App = () => {
   const boosty = 'https://boosty.to/';
@@ -70,6 +72,7 @@ const App = () => {
         />
         <View style={{width: '100%', height: WINDOW_HEIGHT * 0.9}}>
           <WebView
+            userAgent="Mozilla/5.0 (Linux; Android 8.0.0; Pixel 2 XL Build/OPD1.170816.004) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3714.0 Mobile Safari/537.36"
             ref={WEBVIEW_REF => (WebViewRef = WEBVIEW_REF)}
             javaScriptEnabled={true}
             injectedJavaScript={jsCode}

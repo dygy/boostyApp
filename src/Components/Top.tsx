@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {useEffect, useState} from 'react';
-import {Alert, Button, ScrollView, View} from 'react-native';
+import {useEffect, useRef, useState} from 'react';
+import {Alert, Button, ScrollView, TextInput, View} from 'react-native';
 import Avatar from './Avatar';
 import {deleteFavs, getFavs, setFavs} from '../helpers/storage';
+import BoostyButton from './BoostyButton';
 
 type topProps = {
   WINDOW_HEIGHT: number;
@@ -28,6 +29,9 @@ const Top = ({
   boosty,
 }: topProps) => {
   const [favs, setFav] = useState([]);
+  const [text, setText] = useState('');
+  const [isMoving, setIsMoving] = useState(false);
+
   useEffect(() => {
     getFavs().then(setFav);
   }, []);
@@ -106,7 +110,7 @@ const Top = ({
         getFavs().then(setFav);
       });
     } else {
-      console.log(nav, nav.includes(boosty),id, avatar, boosty);
+      console.log(nav, nav.includes(boosty), id, avatar, boosty);
       Alert.alert('Unable to add', 'You probably trying add something wrong', [
         {
           text: 'OK',
@@ -127,35 +131,118 @@ const Top = ({
   };
 
   return (
-    <ScrollView
-      horizontal={true}
-      style={{
-        height: WINDOW_HEIGHT * 0.07,
-        display: 'flex',
-        flexDirection: 'row',
-        padding: 8,
-      }}>
-      <Button color='gray' title={'+'} disabled={isAdding} onPress={handleClick} />
-      <View style={{marginLeft: 16}}>
-      </View>
-      {favs.map((item: favsType) => {
-        return (
-          <Avatar
-            key={item.id}
-            user={item}
+    <>
+      <ScrollView
+        horizontal={true}
+        contentContainerStyle={{
+          height: WINDOW_HEIGHT * 0.1,
+          justifyContent: 'center',
+          display: 'flex',
+          flexDirection: 'row',
+          padding: 8,
+          alignItems: 'center',
+        }}>
+        <BoostyButton
+          title={'🔍'}
+          buttonStyle={{
+            width: 24,
+            height: 24,
+            marginRight: 6,
+            backgroundColor: 'white',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 16,
+          }}
+          onPress={() => {
+            setIsMoving(!isMoving);
+          }}
+          textStyle={{
+            color: 'white',
+          }}
+        />
+        <BoostyButton
+          title={'+'}
+          onPress={isAdding ? () => {} : handleClick}
+          buttonStyle={{
+            width: 24,
+            height: 24,
+            backgroundColor: isAdding ? 'gray' : 'white',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 16,
+          }}
+          textStyle={{
+            color: 'black',
+          }}
+        />
+        <View style={{marginLeft: 6}} />
+        {favs.map((item: favsType) => {
+          return (
+            <Avatar
+              key={item.id}
+              user={item}
+              onPress={() => {
+                setNav(boosty + item.id);
+              }}
+              onGift={() => {
+                setNav(`${boosty + item.id}/purchase-gift`);
+              }}
+              deleteItem={() => {
+                deleteItem(item.id);
+              }}
+            />
+          );
+        })}
+      </ScrollView>
+      {isMoving && (
+        <View
+          style={{
+            backgroundColor: 'lightgray',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'row',
+            padding: 6,
+          }}>
+          <TextInput
+            onChangeText={newText => setText(newText)}
+            style={{
+              width: '80%',
+              marginRight: 6,
+            }}
+            value={text}
+            underlineColorAndroid={'black'}
+            selectionColor={'black'}
+          />
+          <BoostyButton
+            title={'go'}
+            buttonStyle={{
+              width: '15%',
+              height: 30,
+              backgroundColor: 'black',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 6,
+            }}
             onPress={() => {
-              setNav(boosty + item.id);
+              if (text.length > 0) {
+                setNav(boosty + text);
+                setIsMoving(false);
+                setText('');
+              } else {
+                Alert.alert('cant go empty line');
+              }
             }}
-            onGift={() => {
-              setNav(`${boosty + item.id}/purchase-gift`);
-            }}
-            deleteItem={() => {
-              deleteItem(item.id);
+            textStyle={{
+              color: 'white',
             }}
           />
-        );
-      })}
-    </ScrollView>
+        </View>
+      )}
+    </>
   );
 };
 
