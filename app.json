@@ -1,4 +1,30 @@
 {
-  "name": "boostyApp",
-  "displayName": "boostyApp",
+  "expo":{
+    "name":"boostyApp",
+    "slug":"boostyApp",
+    "privacy":"public",
+    "sdkVersion":"34.0.0",
+    "android":{
+      "package":"com.dygy.boosty",
+      "versionCode":9,
+      "permissions":[
+        "READ_PHONE_STATE"
+      ],
+      "icon":"../src/assets/icon.png"
+    },
+    "platforms":[
+      "android",
+      "ios"
+    ],
+    "version":"0.0.3",
+    "orientation":"portrait",
+    "icon":"./assets/images/icon.png",
+    "updates":{
+      "fallbackToCacheTimeout":0
+    },
+    "assetBundlePatterns":[
+      "**/*"
+    ],
+    "description":"app for boosty io"
+  }
 }

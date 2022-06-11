@@ -4,6 +4,7 @@ import {
   Pressable,
   StyleProp,
   Text,
+  TextStyle,
   View,
   ViewStyle,
 } from 'react-native';
@@ -30,6 +31,7 @@ export default ({
     container: StyleProp<ViewStyle>;
     item: StyleProp<ViewStyle>;
     title: StyleProp<ViewStyle>;
+    text: StyleProp<TextStyle>;
   } = {
     title: {
       width: size.width / 2,
@@ -53,6 +55,7 @@ export default ({
       maxHeight: size.height / 2,
       backgroundColor: 'white',
       borderRadius: 8,
+      paddingBottom: 24,
     },
     item: {
       display: 'flex',
@@ -64,7 +67,11 @@ export default ({
       width: size.width / 2,
       borderStyle: 'solid',
       borderWidth: 1,
-      borderColor: 'black',
+      borderColor: 'rgba(255,103,0,1)',
+    },
+    text: {
+      fontWeight: 'bold',
+      color: 'rgba(255,103,0,1)',
     },
   };
 
@@ -74,10 +81,11 @@ export default ({
         onPress={event => event.stopPropagation()}
         style={styles.container}>
         <View style={styles.title}>
-          <Text>{title}</Text>
+          <Text style={styles.text}>{title}</Text>
         </View>
         {actions.map(elem => (
           <Pressable
+            key={elem.title}
             onPress={() => {
               elem.func();
               setModalLayout(null);
@@ -86,7 +94,7 @@ export default ({
             <View style={{width: 32, height: 32, marginRight: 6}}>
               {elem.icon}
             </View>
-            <Text>{elem.title}</Text>
+            <Text style={styles.text}>{elem.title}</Text>
           </Pressable>
         ))}
       </Pressable>
