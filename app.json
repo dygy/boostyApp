@@ -1,4 +1,6 @@
 {
+  "name": "boostyApp",
+  "displayName": "boostyApp",
   "expo":{
     "name":"boostyApp",
     "slug":"boostyApp",
