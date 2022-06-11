@@ -10,6 +10,7 @@ type topProps = {
   isAdding: boolean;
   nav: string;
   setIsAdding: (isAdding: boolean) => void;
+  setModalLayout: (isAdding: boolean) => void;
   setNav: (nav: string) => void;
   boosty: string;
 };
@@ -27,6 +28,7 @@ const Top = ({
   setIsAdding,
   setNav,
   boosty,
+  setModalLayout,
 }: topProps) => {
   const [favs, setFav] = useState([]);
   const [text, setText] = useState('');
@@ -183,6 +185,7 @@ const Top = ({
             <Avatar
               key={item.id}
               user={item}
+              setModalLayout={setModalLayout}
               onPress={() => {
                 setNav(boosty + item.id);
               }}

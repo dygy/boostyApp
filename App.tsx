@@ -10,12 +10,10 @@
 
 import React, {useState} from 'react';
 import {
-  Button,
   Dimensions,
   Linking,
   SafeAreaView,
   StatusBar,
-  TextInput,
   useColorScheme,
   View,
 } from 'react-native';
@@ -25,13 +23,13 @@ import {WebView} from 'react-native-webview';
 import Top from './src/Components/Top';
 import {LanguageProvider} from './src/context/language-context';
 import type {WebViewNavigation} from 'react-native-webview/lib/WebViewTypes';
-import BoostyButton from './src/Components/BoostyButton';
 
 const App = () => {
   const boosty = 'https://boosty.to/';
   const isDarkMode = useColorScheme() === 'dark';
   const [nav, setNav] = useState(boosty);
   const [isAdding, setIsAdding] = useState(false);
+  const [modalLayout, setModalLayout] = useState(null);
 
   const WINDOW_HEIGHT = Dimensions.get('window').height;
   const jsCode = 'window.postMessage(window.innerHTML)';
@@ -69,6 +67,7 @@ const App = () => {
           isAdding={isAdding}
           WINDOW_HEIGHT={WINDOW_HEIGHT}
           setIsAdding={setIsAdding}
+          setModalLayout={setModalLayout}
         />
         <View style={{width: '100%', height: WINDOW_HEIGHT * 0.9}}>
           <WebView
@@ -86,6 +85,7 @@ const App = () => {
             source={{uri: nav}}
           />
         </View>
+        {modalLayout}
       </SafeAreaView>
     </LanguageProvider>
   );
